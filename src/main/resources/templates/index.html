@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<!-- bootstrap cdn -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+		<title>Employee Management System</title>
+	</head>
+	
+	<body>
+		<div align="center" class="container">
+			<h1>Employee List</h1>
+			<a class="btn btn-primary my-2" th:href="@{/showNewEmployeeForm}">Add Employee</a>
+			<table class="table table-dark table-striped table-responsive table-hover" border="1">
+				<thead>
+					<tr>
+						<th>
+							<a th:href="@{'/page/' + ${currentPage} + '?sortField=firstName&sortDirection=' + ${reverseSortDirection}}">
+								First Name	
+							</a>
+						</th>
+						<th>
+							<a th:href="@{'/page/' + ${currentPage} + '?sortField=lastName&sortDirection=' + ${reverseSortDirection}}">
+								Last Name
+							</a>
+						</th>
+						<th>
+							<a th:href="@{'/page/' + ${currentPage} + '?sortField=email&sortDirection=' + ${reverseSortDirection}}">
+								Email
+							</a>
+						</th>
+
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="employee: ${listEmployees}">
+						<td th:text="${employee.firstName}"></td>
+						<td th:text="${employee.lastName}"></td>
+						<td th:text="${employee.email}"></td>
+						<td>
+							<a th:href="@{/showFormForUpdate/{id}(id=${employee.id})}" class="btn btn-primary">
+								Update
+							</a>
+							<a th:href="@{/deleteEmployee/{id}(id=${employee.id})}" class="btn btn-danger">
+								Delete
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<!-- pagination -->
+			<div th:if="${totalPages > 1}">
+				<div class="row col-10">
+					<div class="col-2">
+						Total rows: [[${totalRecords}]]
+					</div>
+					<div class="col-2">
+						<!-- print First page link -->
+						<a th:if="${currentPage > 1}" th:href="@{'/page/' + 1 + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">
+							First
+						</a>
+						<!-- print First in first page as text -->
+						<span th:unless="${currentPage > 1}">First</span>
+					</div>
+					<div class="col-2">
+						<!-- print Previous page link -->
+						<a th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">
+							Previous
+						</a>
+						<!-- print Previous in first page as text -->
+						<span th:unless="${currentPage > 1}">Previous</span>
+					</div>
+					<div class="col-2">
+						<!-- print sequence of page numbers starting from 1 -->
+						<span th:each="i: ${#numbers.sequence(1,totalPages)}">
+							<!-- print page numbers other than current page as links -->
+							<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">
+								[[${i}]]
+							</a>
+							<!-- print current page number as text -->
+							<span th:unless="${currentPage != i}">[[${i}]]</span>
+						</span>
+					</div>
+					<div class="col-2">
+						<!-- print Next page link -->
+						<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">
+							Next
+						</a>
+						<!-- print Next in last page as text -->
+						<span th:unless="${currentPage < totalPages}">Next</span>
+					</div>
+					<div class="col-2">
+						<!-- print Last page link -->
+						<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">
+							Last
+						</a>
+						<!-- print Last in last page as text -->
+						<span th:unless="${currentPage < totalPages}">Last</span>
+					</div>
+				</div>
+			</div>
+			
+		</div>	
+	</body>
+</html>
