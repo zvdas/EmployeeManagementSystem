@@ -8,15 +8,16 @@
 	</head>
 	
 	<body>
+		<div th:insert="navbar"></div>
 		<div align="center" class="container">
 			<h1>Add/Update Employee</h1>
 			<div class="card m-3 p-3">				
 				<form action="#" th:action="@{/saveEmployee}" th:object="${employee}" method="POST">
 					<!-- add hidden form field to handle update employee -->
 					<input type="hidden" th:field="*{id}"/>
-					<input type="text" th:field="*{firstName}" placeholder="John" class="form-control mb-3"/>
-					<input type="text" th:field="*{lastName}" placeholder="Doe" class="form-control mb-3"/>
-					<input type="email" th:field="*{email}" placeholder="john@example.com" class="form-control mb-3"/>
+					<input type="text" th:field="*{firstName}" placeholder="John" class="form-control input-group mb-3"/>
+					<input type="text" th:field="*{lastName}" placeholder="Doe" class="form-control input-group mb-3"/>
+					<input type="email" th:field="*{email}" placeholder="john@example.com" class="form-control input-group mb-3"/>
 					<div class="row justify-content-around">
 						<a th:href="@{/}" class="btn btn-secondary col mx-3">Cancel</a>	
 						<input type="submit" value="Submit" class="btn btn-primary col mx-3"/>
